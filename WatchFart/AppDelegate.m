@@ -7,7 +7,7 @@
 //
 
 #import "AppDelegate.h"
-
+#import <AVFoundation/AVFoundation.h>
 @interface AppDelegate ()
 
 @end
@@ -17,6 +17,18 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
+    NSError *error;
+    NSURL *containerURL = [[NSFileManager defaultManager] containerURLForSecurityApplicationGroupIdentifier:@"group.fart"];
+    [[NSFileManager defaultManager]createDirectoryAtURL: containerURL
+                            withIntermediateDirectories:YES
+                                             attributes:nil
+                                                  error:&error];
+    NSURL *soundURL = [[NSBundle mainBundle] URLForResource:@"fart"
+                                              withExtension:@"mp3"];
+    NSData *fartData = [NSData dataWithContentsOfURL:soundURL];
+    NSString *fartLocation = [NSString stringWithFormat:@"%@fart.mp3", containerURL];
+    BOOL success = [fartData writeToURL:[containerURL URLByAppendingPathComponent:@"fart.mp3"] atomically:YES];
+    
     return YES;
 }
 
@@ -122,6 +134,16 @@
             abort();
         }
     }
+}
+
+-(void)handleFartButtonPressed
+{
+    NSURL *soundURL = [[NSBundle mainBundle] URLForResource:@"fart"
+                                              withExtension:@"mp3"];
+    self.avSound = [[AVAudioPlayer alloc]
+                              initWithContentsOfURL:soundURL error:nil];
+    
+    [self.avSound play];
 }
 
 @end

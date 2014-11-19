@@ -7,7 +7,7 @@
 //
 
 #import "ViewController.h"
-
+#import "AppDelegate.h"
 @interface ViewController ()
 
 @end
@@ -22,6 +22,12 @@
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+-(void)fartButtonPressed:(id)sender
+{
+    AppDelegate *delegate = [[UIApplication sharedApplication] delegate];
+    [delegate handleFartButtonPressed];
 }
 
 @end
